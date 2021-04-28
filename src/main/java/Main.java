@@ -1,20 +1,33 @@
-import java.io.File;
+import javax.swing.plaf.basic.BasicButtonUI;
+import java.io.*;
 import java.text.Normalizer;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
+            System.out.println(leerArchivo());
+    }
+    public static ArrayList leerArchivo() {
+        File f = new File("TallerN°2/cadenas.txt");
+        BufferedReader entrada;
+        ArrayList arrLinea = new ArrayList();
+        try {
+            entrada = new BufferedReader(new FileReader(f));
+            String linea;
+            while (entrada.ready()) {
+                linea = entrada.readLine();
+                String lineaLimpia = limpiarpalabra(linea);
+                arrLinea.add(lineaLimpia);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arrLinea;
+    }
 
-    }
-    public static void leerPalindromo(){
-
-        String palabraLimpia = limpiarpalabra();
-    }
-    public static String leerArchivo(){
-        File f = new File("/home/UFRO/5semestre/PROGRAMACIONII/")
-    }
     public static String limpiarpalabra(String cadena) {
-        String limpio =null;
-        if (cadena !=null) {
+        String limpio = null;
+        if (cadena != null) {
             String valor = cadena;
             valor = valor.toLowerCase();
             limpio = Normalizer.normalize(valor, Normalizer.Form.NFD);
@@ -23,18 +36,11 @@ public class Main {
         }
         return limpio;
     }
-    public static boolean esPalindromo(String cadena){
+
+    public static void esPalindromo(String cadena) {
         String resultado = "";
         StringBuilder stringBuilder = new StringBuilder(cadena);
         resultado = stringBuilder.reverse().toString();
-        if(cadena.equals(resultado)) return true;
-        return false;
+
     }
-    public static void mostrarResultado(String palindromo){
-        if (esPalindromo(palindromo)){
-            System.out.println("Es palíndromo");
-        }
-        else {
-            System.out.println("No es palíndromo");
-        }}
 }
