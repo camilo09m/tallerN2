@@ -1,30 +1,39 @@
-import javax.swing.plaf.basic.BasicButtonUI;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-            System.out.println(leerArchivo());
+        leerArchivo();
     }
     public static ArrayList leerArchivo() {
-        File f = new File("TallerN°2/cadenas.txt");
-        BufferedReader entrada;
-        ArrayList arrLinea = new ArrayList();
-        try {
-            entrada = new BufferedReader(new FileReader(f));
+        List<String> lista = new ArrayList<>();
+        try (FileReader fr = new FileReader("cadenas.txt");
+             BufferedReader br = new BufferedReader(fr)) {
             String linea;
-            while (entrada.ready()) {
-                linea = entrada.readLine();
-                String lineaLimpia = limpiarpalabra(linea);
-                arrLinea.add(lineaLimpia);
+            while ((linea = br.readLine()) != null) {
+                lista.add(linea);
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return arrLinea;
+        return (ArrayList) lista;
     }
-
+    public static void ordenarArray(){
+        List<String> lista = new ArrayList<>();
+        lista = leerArchivo();
+        for (int i=0; i<lista.size();i++){
+            String palabra = limpiarpalabra(lista.get(i));
+            esPalindromo(palabra);
+        }
+    }
     public static String limpiarpalabra(String cadena) {
         String limpio = null;
         if (cadena != null) {
@@ -41,6 +50,5 @@ public class Main {
         String resultado = "";
         StringBuilder stringBuilder = new StringBuilder(cadena);
         resultado = stringBuilder.reverse().toString();
-
     }
 }
